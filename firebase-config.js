@@ -19,4 +19,5 @@ const firebaseConfig = {
 };
 
 const CORREOS_PROPIETARIOS = ['aviacamoso@gmail.com', 'letcarcab@gmail.com'];
+const CONTRASEÑAS = ['Pentium1a', 'Pentium1c'];
 const WHATSAPP_NUMERO = '5492236841767';
