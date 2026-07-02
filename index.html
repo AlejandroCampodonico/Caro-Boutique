@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARO BOUTIQUE DE MOÑOS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-izq">
+      <a href="#" class="marca-container">
+        <div class="mono-logo"><div class="mono-centro"></div></div>
+        <span class="logo-texto">Caro Boutique</span>
+      </a>
+      <nav>
+        <a href="#catalogo">COLECCIÓN</a>
+        <a href="#crea-tu-mono">CREÁ TU MOÑO</a>
+      </nav>
+    </div>
+    <button class="btn-carrito" id="btn-abrir-carrito" aria-label="Abrir carrito">
+      🛒 Carrito
+      <span class="badge-carrito" id="badge-carrito">0</span>
+    </button>
+  </header>
+
+  <div class="container">
+    <div class="caja-estilo" id="caja-login" style="max-width: 400px; margin: 0 auto 60px auto; text-align: center;">
+      <h3 style="margin-top: 0; color: var(--rosa-oscuro);">Identificate</h3>
+      <p style="font-size: 13px; color: var(--texto-secundario);">Ingresá tu correo para continuar.</p>
+      <input type="email" id="email-input" class="input-estilo" placeholder="tu@email.com">
+      <button class="btn-principal" id="btn-login">Ingresar</button>
+    </div>
+
+    <section id="panel-admin" class="caja-estilo">
+      <h3 style="color: var(--rosa-oscuro); margin-top: 0;">Panel de Gestión — Modo Propietaria</h3>
+      <p style="font-size: 14px;">Publicá moños con foto profesional sobre fondo blanco para una presentación premium.</p>
+
+      <div class="admin-grid">
+        <div>
+          <label class="campo-label">Nombre del Moño</label>
+          <input type="text" id="nuevo-nombre" class="input-estilo" placeholder="Ej: Moño Velvet Noche">
+        </div>
+        <div>
+          <label class="campo-label">Precio ($)</label>
+          <input type="number" id="nuevo-precio" class="input-estilo" placeholder="0" min="0" step="100">
+        </div>
+        <div>
+          <label class="campo-label">Tamaño</label>
+          <select id="nuevo-tamanio" class="select-estilo">
+            <option value="pequeno">Pequeño</option>
+            <option value="mediano" selected>Mediano</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+        <div>
+          <label class="campo-label">Color</label>
+          <select id="nuevo-color" class="select-estilo">
+            <option value="rosa" data-hex="#ffb6c1">Rosa</option>
+            <option value="rojo" data-hex="#c0392b">Rojo</option>
+            <option value="negro" data-hex="#222222">Negro</option>
+            <option value="blanco" data-hex="#f5f5f5">Blanco</option>
+            <option value="dorado" data-hex="#d4af37">Dorado</option>
+            <option value="azul" data-hex="#3498db">Azul</option>
+            <option value="verde" data-hex="#27ae60">Verde</option>
+            <option value="violeta" data-hex="#9b59b6">Violeta</option>
+            <option value="nude" data-hex="#d4a574">Nude</option>
+            <option value="multicolor" data-hex="#d87093">Multicolor</option>
+          </select>
+        </div>
+        <div>
+          <label class="campo-label">Stock disponible</label>
+          <input type="number" id="nuevo-stock" class="input-estilo" value="1" min="0">
+        </div>
+      </div>
+
+      <label class="campo-label" style="margin-top: 10px;">Descripción breve</label>
+      <textarea id="nuevo-descripcion" class="textarea-estilo" rows="3" placeholder="Ej: Moño de terciopelo con clip francés, ideal para cabello largo..."></textarea>
+
+      <label class="campo-label">Imagen del producto</label>
+      <div class="zona-imagen" id="zona-upload">
+        <p style="margin: 0; font-size: 14px; color: var(--texto-secundario);">
+          Arrastrá una foto acá o hacé clic para subir<br>
+          <small>JPG, PNG o WEBP — recomendado fondo claro</small>
+        </p>
+        <input type="file" id="input-imagen" accept="image/*" hidden>
+      </div>
+
+      <div class="herramienta-fondo" id="herramienta-fondo" style="display: none;">
+        <h4>✨ Estudio Premium — Fondo blanco automático</h4>
+        <p>Ideal si la foto tiene fondo claro o blanco. Ajustá la sensibilidad si hace falta.</p>
+        <label class="campo-label">Sensibilidad del recorte</label>
+        <input type="range" id="sensibilidad-fondo" min="10" max="70" value="32" style="width:100%;margin-bottom:8px;">
+        <small style="color:var(--texto-secundario);display:block;margin-bottom:12px;">Más alto = quita más fondo (cuidado con bordes del moño)</small>
+        <div class="preview-doble">
+          <div>
+            <small style="color: var(--texto-secundario);">Original</small>
+            <img id="preview-original" alt="Original">
+          </div>
+          <div>
+            <small style="color: var(--texto-secundario);">Resultado premium</small>
+            <img id="preview-procesada" alt="Procesada">
+          </div>
+        </div>
+        <div class="barra-progreso" id="barra-progreso">
+          <div class="barra-progreso-fill" id="barra-fill"></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+          <button class="btn-principal" id="btn-quitar-fondo" style="width: auto; flex: 1;">Quitar fondo</button>
+          <button class="btn-secundario" id="btn-usar-original">Usar original</button>
+        </div>
+      </div>
+
+      <button class="btn-principal" id="btn-publicar" style="margin-top: 10px;" disabled>Publicar en la Tienda</button>
+
+      <div class="lista-admin-productos" id="lista-admin">
+        <h4 style="font-size: 13px; font-weight: 600; color: var(--rosa-oscuro);">Productos publicados</h4>
+        <div id="contenedor-admin-productos"></div>
+      </div>
+    </section>
+
+    <section id="catalogo">
+      <h2>Nuestra Colección</h2>
+      <p class="subtitulo-seccion">Moños artesanales con acabado premium</p>
+
+      <div class="barra-filtros">
+        <div>
+          <label class="campo-label">Buscar</label>
+          <input type="text" id="filtro-busqueda" class="input-estilo" placeholder="Nombre del moño..." style="margin-bottom: 0;">
+        </div>
+        <div>
+          <label class="campo-label">Ordenar por</label>
+          <select id="filtro-orden" class="select-estilo" style="margin-bottom: 0;">
+            <option value="reciente">Más recientes</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nombre">Nombre A-Z</option>
+          </select>
+        </div>
+        <div>
+          <label class="campo-label">Color</label>
+          <select id="filtro-color" class="select-estilo" style="margin-bottom: 0;">
+            <option value="">Todos los colores</option>
+            <option value="rosa">Rosa</option>
+            <option value="rojo">Rojo</option>
+            <option value="negro">Negro</option>
+            <option value="blanco">Blanco</option>
+            <option value="dorado">Dorado</option>
+            <option value="azul">Azul</option>
+            <option value="verde">Verde</option>
+            <option value="violeta">Violeta</option>
+            <option value="nude">Nude</option>
+            <option value="multicolor">Multicolor</option>
+          </select>
+        </div>
+        <div>
+          <label class="campo-label">Tamaño</label>
+          <select id="filtro-tamanio" class="select-estilo" style="margin-bottom: 0;">
+            <option value="">Todos los tamaños</option>
+            <option value="pequeno">Pequeño</option>
+            <option value="mediano">Mediano</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+        <div>
+          <label class="campo-label">Precio máximo ($)</label>
+          <input type="number" id="filtro-precio-max" class="input-estilo" placeholder="Sin límite" min="0" style="margin-bottom: 0;">
+        </div>
+        <div style="display: flex; align-items: flex-end;">
+          <button class="btn-secundario" id="btn-limpiar-filtros" style="width: 100%; margin-bottom: 0;">Limpiar filtros</button>
+        </div>
+      </div>
+
+      <p class="contador-resultados" id="contador-resultados"></p>
+      <div class="grid-productos" id="contenedor-productos">
+        <div class="mensaje-vacio">No hay moños publicados por el momento. ¡Volvé pronto!</div>
+      </div>
+    </section>
+
+    <section id="crea-tu-mono" style="margin-top: 80px;">
+      <h2>Creá tu Moño a Medida</h2>
+      <div class="caja-estilo" style="max-width: 600px; margin: 0 auto;">
+        <p style="text-align: center; color: var(--texto-secundario); margin-bottom: 30px;">
+          Elegí los materiales y contanos tu idea. Te contactaremos para pasarte un presupuesto.
+        </p>
+        <label class="campo-label">Nombre completo</label>
+        <input type="text" id="pedido-nombre" class="input-estilo" placeholder="Tu nombre">
+        <label class="campo-label">WhatsApp o Email</label>
+        <input type="text" id="pedido-contacto" class="input-estilo" placeholder="+54 9 ...">
+        <label class="campo-label">Tipo de Tela</label>
+        <select id="pedido-tela" class="select-estilo">
+          <option value="raso">Raso / Satén</option>
+          <option value="terciopelo">Terciopelo (Velvet)</option>
+          <option value="organza">Organza (Transparente)</option>
+          <option value="algodon">Algodón estampado</option>
+        </select>
+        <label class="campo-label">Color Principal</label>
+        <input type="color" id="pedido-color" class="input-estilo" value="#d87093" style="height: 50px; padding: 5px;">
+        <label class="campo-label">Descripción y Combinaciones</label>
+        <textarea id="pedido-descripcion" class="textarea-estilo" rows="4" placeholder="Ej: Quiero que sea de dos capas, con la cinta cayendo largo..."></textarea>
+        <button class="btn-principal" id="btn-enviar-pedido">Enviar Solicitud por WhatsApp</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Carrito lateral -->
+  <div class="overlay" id="overlay-carrito"></div>
+  <aside class="panel-lateral" id="panel-carrito">
+    <div class="panel-header">
+      <h3>Tu Carrito</h3>
+      <button class="btn-cerrar" id="btn-cerrar-carrito" aria-label="Cerrar carrito">&times;</button>
+    </div>
+    <div class="panel-contenido" id="contenido-carrito"></div>
+    <div class="panel-footer" id="footer-carrito" style="display: none;">
+      <div class="total-carrito">
+        <span>Total</span>
+        <span id="total-carrito">$0</span>
+      </div>
+      <button class="btn-principal" id="btn-checkout">Finalizar por WhatsApp</button>
+    </div>
+  </aside>
+
+  <!-- Modal detalle producto -->
+  <div class="overlay" id="overlay-modal"></div>
+  <div class="modal-producto" id="modal-producto">
+    <button class="btn-cerrar modal-cerrar" id="btn-cerrar-modal">&times;</button>
+    <div class="modal-grid" id="modal-contenido"></div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
